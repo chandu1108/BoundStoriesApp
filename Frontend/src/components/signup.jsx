@@ -1,22 +1,46 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Login from '../components/login'
 import { useForm } from "react-hook-form"
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
-function signup() {
+function Signup() {
+    const location=useLocation()
+    const Navigate=useNavigate()
+    const from=location.state?.from?.pathname || "/"
     const {
             register,
             handleSubmit,
             formState: { errors },
           } = useForm()
         
-    const onSubmit = (data) => console.log(data)
+    const onSubmit =async (data) =>{
+      const userInfo={
+        fullname:data.fullname,
+        email:data.email,
+        password:data.password
+      }
+      await axios.post("http://localhost:4001/user/signup",userInfo)
+      .then((res)=>{
+        console.log(res.data)
+        if(res.data){
+          toast.success("Signup Successful")
+          Navigate(from, {replace:true});
+        }
+        localStorage.setItem("Users",JSON.stringify(res.data.user))
+      })
+      .catch((err)=>{
+        console.log(err);
+        toast.error("Error: "+err.message.data.message);
+      })
+    }
   return (
     <>
     <div className='flex h-screen items-center justify-center dark:bg-black-900 dark:text-white'>
-    <div id="my_modal_3" className='w-[600px]' >
+    <div id="" className='w-[600px]' >
   <div className="modal-box">
-    <form method="dialog" onSubmit={handleSubmit(onSubmit)}>
+    <form id='' method="dialog" onSubmit={handleSubmit(onSubmit)}>
       {/* if there is a button in form, it will close the modal */}
       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:outline"><Link to='/'>✕</Link></button>
     
@@ -26,8 +50,8 @@ function signup() {
     <span>Name</span><br />
     <input type="name" placeholder='Enter Your Name' 
     className='w-80 px-3 py-3 border rounded-md outline-none'
-    {...register("name", { required: true })}/><br />
-    {errors.name && <span className='text-sm text-red-500'>This field is required</span>} <br />
+    {...register("fullname", { required: true })}/><br />
+    {errors.fullname && <span className='text-sm text-red-500'>This field is required</span>} <br />
 
     <span>Email</span><br />
     <input type="email" placeholder='Enter Your Email' 
@@ -46,15 +70,16 @@ function signup() {
         SignUp
         </button><br />
     </div>
-    <p className='flex justify-center'>Already have an Acount?
+    
+    </div>
+    </form>
+    <p className='flex justify-center'>Already have an Acount?{" "}
         <button className='text-blue-500 cursor-pointer underline'
         onClick={()=>
         document.getElementById("my_modal_3").showModal()}>
-        Login </button>
+        Login </button>{" "}
         <Login/>
         </p>
-    </div>
-    </form>
   </div>
 </div>
     </div>
@@ -62,4 +87,4 @@ function signup() {
   )
 }
 
-export default signup
+export default Signup

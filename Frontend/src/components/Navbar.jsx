@@ -3,8 +3,17 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import boook from "../../public/boook.png"
 import Login from '../components/login'
+import Logout from './Logout'
+import { useAuth } from '../context/authProvider'
 
 function Navbar() {
+  const [authUser,setAuthUser]=useAuth();
+  console.log(authUser);
+  // const [authUser,setAuthUser]=useAuth();
+  // console.log(authUser);
+
+
+
     const [theme,setTheme]=useState(localStorage.getItem("theme")?localStorage.getItem("theme"):"light")
     const element=document.documentElement;
     useEffect(()=>{
@@ -42,11 +51,11 @@ function Navbar() {
     <>
     <div>
      <div className={`navbar fixed top-0 right-0 left-0 z-50 dark:bg-slate-900 dark:text-white
-        ${sticky?'sticky-navbar shadow-md bg-base-300 duration=300 transition-all ease-in-out':'' }
+        ${sticky?'sticky-navbar shadow-md bg-base-300 duration=300 transition-all ease-in-out ':'' }
         `}> {/*max-w-screen-2xl container mx-auto md:px-20 px-4 */}
-  <div className="navbar-start">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+  <div className="navbar-start ">
+    <div className="dropdown ">
+      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -62,7 +71,7 @@ function Navbar() {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow dark:bg-slate-900 dark:text-white">
         {navItem}</ul>
     </div>
     <img src={boook} className='w-16 h-16' alt="" />
@@ -112,6 +121,8 @@ function Navbar() {
       d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
   </svg>
 </label>
+{
+  authUser?<Logout/>:
   <div className="">
     <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-300 dark:bg-white dark:text-black
      hover:text-black duration-300 cursor-pointer" 
@@ -119,6 +130,7 @@ function Navbar() {
       Login</a>
       <Login/>
   </div>
+}
 </div>
 </div>
     </div>
