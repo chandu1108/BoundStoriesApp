@@ -50,9 +50,6 @@ BoundStoriesApp/
 ├─ /README.md # This documentation
 └─ …
 
-yaml
-Copy code
-
 ---
 
 ## 🧑‍💻 Getting Started (for Developers)
@@ -90,4 +87,6 @@ If you’d like to contribute or have suggestions:
 GitHub: https://github.com/chandu1108
 
 Email: chandankumarm10404@gmail.com
+
+
 Feel free to fork and make improvements! ⭐
