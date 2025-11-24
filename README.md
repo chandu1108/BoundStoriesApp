@@ -50,7 +50,6 @@ BoundStoriesApp/
 ├─ /README.md # This documentation
 └─ …
 
----
 
 ## 🧑‍💻 Getting Started (for Developers)
 
